@@ -18,6 +18,8 @@ PAIR PAIR ab
 STRAIGHT STRAIGHT b
 PAIR PAIR a
 
+The program must read from STDIN and write to STDOUT.
+
 make array of hands ranked lowest to highest
 go through cards and find matching
 if no pairs, HIGHCARD
@@ -30,6 +32,19 @@ if 4 match, FOUROFAKIND
 get index of hand from hand array
 
 */
+const hands = ["HIGHCARD", "TWOPAIR", "THREEOFAKIND", "STRAIGHT", "FULLHOUSE", "FOUROFAKIND"];
+const cards = ["2","3","4","5","6","7","8","9","T","J","Q","K"];
+
+const example = ["AAKKK 23456", "KA225 33A47"];
+
+//split example hands into arrays
+
+//check for matches
+
+
+
+
+
 
 
 
