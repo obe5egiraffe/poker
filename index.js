@@ -110,6 +110,7 @@ function checkStraight(hand){
 	let indexes = [];
 	let inOrder = true;
 
+	//get indexes of card from cardValues array
 	hand.map(card => {
 		indexes.push(cardValues.indexOf(card));
 	});
