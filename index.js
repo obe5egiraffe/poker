@@ -1,5 +1,4 @@
-//process.stdout.write('hello\n');
-
+//
 /*
 Sample Input
 6
@@ -33,20 +32,42 @@ get index of hand from hand array
 
 */
 const handsRank = ["HIGHCARD", "PAIR", "TWOPAIR", "THREEOFAKIND", "STRAIGHT", "FULLHOUSE", "FOUROFAKIND"];
-const cardValues = ["2","3","4","5","6","7","8","9","T","J","Q","K"];
+const cardValues = ["2","3","4","5","6","7","8","9","T","J","Q","K","A"];
 
 let winner = "";
+let rank = 0;
 
-const example1 = "TTTA9";
-const example2 = "TTTT2";
 
-console.log(checkHand(example1));
-console.log(checkHand(example2));
+
+const example1 = "AAKKK";
+const example2 = "QQT2J";
+
+const hands = [];
+ 
+
+process.stdin.on('data', data => {
+	if(data.length != 6){
+		process.stdout.write("Please put in 5 cards :/ \n");
+	} else {
+		hands.push(data.toString().trim());
+	}
+
+	if(hands.length === 3){
+		hands.forEach(hand => process.stdout.write(checkHand(hand) + '\n'));
+		process.exit();
+	}
+	//console.log(data.length);
+	//console.log(hands);
+})
+
+
+//console.log(checkHand(example1));
+//console.log(checkHand(example2));
 
 function checkHand(hand){
 	//sort hand 
 	const sortedHand = hand.split('').map(c => c[0]).sort();
-	let rank = 0;
+
 	//check for matches so we can narrow it down
 	let matches = [];
 	for(let i=1;i < sortedHand.length; i++){
@@ -57,7 +78,7 @@ function checkHand(hand){
 	
 	if (matches.length === 0) {
 		//Either straight or high card
-		rank = 0;
+		checkStraight(sortedHand);
 
 	} else if(matches.length === 1){
 		rank = 1;
@@ -82,6 +103,21 @@ function checkHand(hand){
 
 }
 
+function checkStraight(hand){
+	let indexes = [];
+	let inOrder = false;
+
+	hand.map(card => {
+		indexes.push(cardValues.indexOf(card));
+	});
+	
+	for(let i = 1; i < indexes.length; i++){
+		if(indexes[i - 1] === indexes[i] - 1){
+			inOrder = true;
+		}
+	}
+	rank = inOrder ? 4 : 0;
+}
 
 
 
