@@ -9,6 +9,8 @@ TT8A9 TTA89
 A2345 23456
 QQ2AT QQT2J
 
+T6734
+
 Sample Output
 FULLHOUSE STRAIGHT a
 PAIR PAIR b
@@ -40,11 +42,11 @@ let rank = 0;
 
 
 const example1 = "AAKKK";
-const example2 = "QQT2J";
+const example2 = "T6734";
 
 const hands = [];
  
-
+/*
 process.stdin.on('data', data => {
 	if(data.length != 6){
 		process.stdout.write("Please put in 5 cards :/ \n");
@@ -59,10 +61,11 @@ process.stdin.on('data', data => {
 	//console.log(data.length);
 	//console.log(hands);
 })
+*/
 
 
-//console.log(checkHand(example1));
-//console.log(checkHand(example2));
+console.log(checkHand(example1));
+console.log(checkHand(example2));
 
 function checkHand(hand){
 	//sort hand 
@@ -105,15 +108,15 @@ function checkHand(hand){
 
 function checkStraight(hand){
 	let indexes = [];
-	let inOrder = false;
+	let inOrder = true;
 
 	hand.map(card => {
 		indexes.push(cardValues.indexOf(card));
 	});
 	
 	for(let i = 1; i < indexes.length; i++){
-		if(indexes[i - 1] === indexes[i] - 1){
-			inOrder = true;
+		if(indexes[i - 1] != indexes[i] - 1){
+			inOrder = false;
 		}
 	}
 	rank = inOrder ? 4 : 0;
