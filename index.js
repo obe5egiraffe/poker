@@ -33,42 +33,62 @@ if 4 match, FOUROFAKIND
 get index of hand from hand array
 
 */
+const readline = require("readline");
+const rl = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout
+});
+
 const handsRank = ["HIGHCARD", "PAIR", "TWOPAIR", "THREEOFAKIND", "STRAIGHT", "FULLHOUSE", "FOUROFAKIND"];
 const cardValues = ["2","3","4","5","6","7","8","9","T","J","Q","K","A"];
 
-let winner = "";
-let rank = 0;
+let inputs = [];
+let hands = [];
+let output = [];
+
+rl.prompt();
+
+rl.on('line', function(data) {
+	inputs.push(data);
+});
 
 
-
-const example1 = "AAKKK";
-const example2 = "T6734";
-
-const hands = [];
- 
-/*
-process.stdin.on('data', data => {
-	if(data.length != 6){
-		process.stdout.write("Please put in 5 cards :/ \n");
-	} else {
-		hands.push(data.toString().trim());
+rl.on('close', function(data){
+	for(let i = 1;i < inputs.length;i++){
+		hands.push(inputs[i]);
 	}
+	console.log(inputs[0]);
+	hands.forEach(hand => {
+		const pair = hand.split("  ");
+		let winner;
+		const a = pair[0];
+		const b = pair[1];
+		const rankA = checkHands(a);
+		const rankB = checkHands(b);
+		if(rankA > rankB){
+			winner = "a";
+		} else if(rankA < rankB) {
+			winner = "b";
+		} else if(rankA === rankB){
+			if(getHighCard(a) > getHighCard(b)){
+				winner = "a";
+			} else if(getHighCard(a) < getHighCard(b)){
+				winner = "b";
+			} else {
+				winner = "ab";
+			}
+		} else {
+			winner = "ab";
+		}
+		console.log(`${handsRank[rankA]}  ${handsRank[rankB]} ${winner}` );
+	});
 
-	if(hands.length === 3){
-		hands.forEach(hand => process.stdout.write(checkHand(hand) + '\n'));
-		process.exit();
-	}
-	//console.log(data.length);
-	//console.log(hands);
-})
-*/
+	process.exit(0);
+});
 
-
-console.log(checkHand(example1));
-console.log(checkHand(example2));
-
-function checkHand(hand){
+function checkHands(hand){
 	//sort hand 
+	let rank = 0;
 	const sortedHand = hand.split('').map(c => c[0]).sort();
 
 	//check for matches so we can narrow it down
@@ -101,11 +121,23 @@ function checkHand(hand){
 		
 		
 	}
-	//console.log(matches);
-	return handsRank[rank];
+
+	return rank;
 
 }
 
+function getHighCard(hand){
+	let highNum = 0;
+	const sortedHand = hand.split('').map(c => c[0]).sort();
+	sortedHand.map(card => {
+		if(cardValues.indexOf(card) > highNum){
+			highNum = cardValues.indexOf(card);
+		}
+	})
+
+	return highNum;
+
+}
 function checkStraight(hand){
 	let indexes = [];
 	let inOrder = true;
@@ -120,13 +152,11 @@ function checkStraight(hand){
 			inOrder = false;
 		}
 	}
-	rank = inOrder ? 4 : 0;
+	rank = inOrder ? 4 : 0; 
 }
 
 
 
-
-//check for matches
 
 
 
