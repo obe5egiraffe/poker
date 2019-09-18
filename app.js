@@ -2,12 +2,12 @@
 /*
 Sample Input
 6
-AAKKK 23456
-KA225 33A47
-AA225 44465
-TT8A9 TTA89
-A2345 23456
-QQ2AT QQT2J
+AAKKK  23456
+KA225  33A47
+AA225  44465
+TT8A9  TTA89
+A2345  23456
+QQ2AT  QQT2J
 
 T6734
 
@@ -50,7 +50,18 @@ rl.prompt();
 
 rl.on('line', function(data) {
 	inputs.push(data);
+	rl.pause();
 });
+
+rl.on('pause', function(data){
+
+	if((inputs.length - 1) === parseInt(inputs[0])){
+		rl.close();
+	} else {
+		rl.resume();
+	};
+	
+})
 
 
 rl.on('close', function(data){
@@ -86,9 +97,10 @@ rl.on('close', function(data){
 	process.exit(0);
 });
 
+
 function checkHands(hand){
-	//sort hand 
 	let rank = 0;
+	//sort hand 
 	const sortedHand = hand.split('').map(c => c[0]).sort();
 
 	//check for matches so we can narrow it down
@@ -101,7 +113,7 @@ function checkHands(hand){
 	
 	if (matches.length === 0) {
 		//Either straight or high card
-		checkStraight(sortedHand);
+		rank = checkStraight(sortedHand);
 
 	} else if(matches.length === 1){
 		rank = 1;
@@ -113,7 +125,7 @@ function checkHands(hand){
 			rank = 2;
 		}
 	} else if (matches.length === 3){
-		if(matches[0] == matches[1] && matches[0] == matches[2]){
+		if(matches[0] === matches[1] && matches[0] === matches[2]){
 			rank = 6;
 		} else {
 			rank = 5;
@@ -152,7 +164,8 @@ function checkStraight(hand){
 			inOrder = false;
 		}
 	}
-	rank = inOrder ? 4 : 0; 
+	return inOrder ? 4 : 0; 
+
 }
 
 
